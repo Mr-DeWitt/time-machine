@@ -1,0 +1,32 @@
+import org.gradle.api.publish.maven.MavenPublication
+
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'com.szityu.oss'
+version '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        timeMachine(MavenPublication) {
+            artifactId 'time-machine'
+
+            from components.java
+        }
+    }
+}
