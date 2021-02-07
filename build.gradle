@@ -3,10 +3,12 @@ import org.gradle.api.publish.maven.MavenPublication
 plugins {
     id 'java'
     id 'maven-publish'
+    id 'signing'
 }
 
 group 'com.szityu.oss.timemachine'
 version '1.0.0-SNAPSHOT'
+def artifactName = 'time-machine'
 
 repositories {
     mavenCentral()
@@ -22,12 +24,62 @@ test {
     useJUnitPlatform()
 }
 
-publishing {
-    publications {
-        timeMachine(MavenPublication) {
-            artifactId 'time-machine'
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
 
-            from components.java
+jar {
+    archivesBaseName = artifactName
+}
+
+publishing {
+    repositories {
+        maven {
+            name "MavenCentral"
+            if (project.version.endsWith("-SNAPSHOT")) {
+                url 'https://oss.sonatype.org/content/repositories/snapshots'
+            } else {
+                url 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            }
+            credentials {
+                username System.getenv('maven_central_username')
+                password System.getenv('maven_central_password')
+            }
         }
     }
+    publications {
+        timeMachineMaven(MavenPublication) {
+            artifactId artifactName
+            from components.java
+            pom {
+                name = 'Time Machine'
+                description = 'This project contains useful tools for time based testing.'
+                url = 'https://github.com/Mr-DeWitt/time-machine'
+                licenses {
+                    license {
+                        name = 'The MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'Mr-DeWitt'
+                        name = 'Szilard L. Fodor'
+                        email = 'szilard.l.fodor@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:ssh://git@github.com:Mr-DeWitt/time-machine.git'
+                    developerConnection = 'scm:git:ssh://git@github.com:Mr-DeWitt/time-machine.git'
+                    url = 'https://github.com/Mr-DeWitt/time-machine.git'
+                }
+            }
+        }
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications.timeMachineMaven
 }
