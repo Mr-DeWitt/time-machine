@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 
 /**
  * <p>This class is used during testing to cover several time base scenarios.</p>
- * <p>This implementation based on <a href=" https://github.com/perfectacle/time-machine">Perfectable</a>'s code, so many
+ * <p>This implementation based on <a href="https://github.com/perfectacle/time-machine">Perfectable</a>'s code, so many
  * thanks to <b>Gwonseong Yang</b>.</p>
  *
  * @author Szilard L. Fodor

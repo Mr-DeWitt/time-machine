@@ -53,8 +53,7 @@ class TimeMachineTest {
     @Test
     void travelWith_instant() {
         //GIVEN
-        ZoneOffset originalZone = ZoneOffset.ofHours(1);
-        ZonedDateTime originalDateTime = ZonedDateTime.of(LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 0)), originalZone);
+        ZonedDateTime originalDateTime = ZonedDateTime.now();
         Instant newInstant = originalDateTime.plusHours(1).toInstant();
 
         // WHEN
