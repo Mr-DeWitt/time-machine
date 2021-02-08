@@ -10,6 +10,7 @@ on:
 jobs:
   test-pull-request-to-default-branch:
 
+    name: Test pull request to default branch
     runs-on: ubuntu-latest
 
     steps:
@@ -22,13 +23,12 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build -x test
-      - name: Test for result
+      - name: Test with gradle
+        id: test
         run: ./gradlew test
-        continue-on-error: true
       - uses: actions/upload-artifact@v2
         name: Upload test results
+        if: ${{ always() && steps.test.outcome == 'failure' }}
         with:
           name: test-results
           path: build/reports/tests/test
-      - name: Test for failure
-        run: ./gradlew test
