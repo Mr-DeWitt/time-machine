@@ -4,7 +4,7 @@
 name: Build and test the default branch
 
 on:
-  push:
+  pull_request:
     branches: [ develop ]
 
 jobs:
